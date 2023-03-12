@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define PRINT_TRANSITIONS 1
+#define PRINT_TRANSITIONS 0
 
 FILE *OpenFileAndCheck(const char *filePath)
 {
@@ -24,7 +24,6 @@ InputQuintuple CreateInputQuintupleFromFile(const char *filePath)
     int finalStateQuantity;
     int *finalStates;
     int transitionQuantity;
-    int ***rawTransitions;
     int inputQuantity;
     char **input;
 
@@ -131,12 +130,28 @@ void PrintTransitions(InputQuintuple quintuple)
 
 int ProcessWord(InputQuintuple quintuple, char* word)
 {
-    return 0;
+    return 1;
 }
 
 void ProcessInput(InputQuintuple quintuple)
 {
-    
+    int i;
+    for (i = 0; i < 1; i++)
+    {
+
+        //char* word = "aab";
+        char* word = quintuple.Input[0];
+        int validation = ProcessWord(quintuple, word);
+        printf("%d: %s ", i+1, word);
+        if (validation)
+        {
+            printf("OK\n");
+        }
+        else
+        {
+            printf("NOT OK\n");
+        }
+    }
 }
 
 int main(int argc, char **argv)
@@ -152,7 +167,7 @@ int main(int argc, char **argv)
         PrintTransitions(inputQuintuple);
     }
 
-
+    ProcessInput(inputQuintuple);
     FreeInputQuintuple(&inputQuintuple);
     return 0;
 }
