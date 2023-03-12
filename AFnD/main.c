@@ -1,30 +1,6 @@
 #include "main.h"
 
-
-// InputQuintuple
-
-// Alphabet - Columns
-int ***CreateRaw(int alphabet, int transitionQuantity)
-{
-
-    int i, j, k;
-    int ***matrix = (int ***) malloc(transitionQuantity * sizeof(int **)); // alocação da matriz
-    int depth = 4;
-    for (i = 0; i < transitionQuantity; i++)
-    {
-        matrix[i] = (int **) malloc(alphabet * sizeof(int *)); // alocação de cada linha da matriz
-        for (j = 0; j < alphabet; j++)
-        {
-            matrix[i][j] = (int *) malloc(depth * sizeof(int));
-            for (k = 0; k < depth; k++)
-            {
-                matrix[i][j][k] = i + j + k; // atribuição de valores para cada elemento da matriz
-            }
-        }
-    }
-    return matrix;
-}
-
+#define PRINT_TRANSITIONS 1
 
 FILE *OpenFileAndCheck(const char *filePath)
 {
@@ -42,8 +18,8 @@ InputQuintuple CreateInputQuintupleFromFile(const char *filePath)
     // Abre o arquivo e checa se deu tudo OK
     FILE *file = OpenFileAndCheck(filePath);
     int i;
-    // Declaracao das variaveis da quintupla
-    char alphabet[10];
+    // Declaracao das variaveis da quintupla e da quintupla
+    InputQuintuple quintuple;
     int stateQuantity;
     int finalStateQuantity;
     int *finalStates;
@@ -54,9 +30,10 @@ InputQuintuple CreateInputQuintupleFromFile(const char *filePath)
 
     // Primeira Linha: Alfabeto
 
-    fgets(&alphabet, 10, file);
-    // Segunda Linha: Quantidade de Estados
+    fgets(&quintuple.Alphabet, MAX_SYMBOLS, file);
+    // TODO: Colocar em ordem alfabetica
 
+    // Segunda Linha: Quantidade de Estados
     fscanf(file, "%d", &stateQuantity);
     // Terceira Linha: Quantidade de Estados finais
     fscanf(file, "%d", &finalStateQuantity);
@@ -74,31 +51,28 @@ InputQuintuple CreateInputQuintupleFromFile(const char *filePath)
     fscanf(file, "%d", &transitionQuantity);
 
     // SextaLinha: Transicoes:
-    // TODO: Matrix
-    Transition* transitions = (Transition*) malloc(sizeof(Transition) * transitionQuantity);
+    memset(quintuple.Transitions, 0, sizeof(quintuple.Transitions));
     for (int i = 0; i < transitionQuantity; i++)
     {
         int CurrentState;
         char Symbol;
         int NextState;
         fscanf(file, "%d", &CurrentState);
-        fgetc(file);
+        fgetc(file); // Pulando os caracteres de quebra de linha
         fscanf(file, "%c", &Symbol);
-        fgetc(file);
+        fgetc(file); // Pulando os caracteres de quebra de linha
         fscanf(file, "%d", &NextState);
-        Transition transition = {CurrentState, Symbol, NextState};
-        transitions[i] = transition;
+        quintuple.Transitions[CurrentState][Symbol - 'a'][NextState] = 1;
     }
-
     // SetimaLinha: Numero de Entradas
     fscanf(file, "%d", &inputQuantity);
     fgetc(file);
     input = (char*) malloc(sizeof (char*) * inputQuantity);
     for (i = 0; i < inputQuantity; i++)
     {
-        input[i] = malloc(sizeof(char) * 100);
+        input[i] = malloc(sizeof(char) * MAX_INPUT_SIZE);
         char* symbols = input[i];
-        fgets(symbols, 100, file);
+        fgets(symbols, MAX_INPUT_SIZE, file);
         char* c = strchr(symbols, '\n');
         if (c) *c = 0;
         input[i] = symbols;
@@ -106,16 +80,13 @@ InputQuintuple CreateInputQuintupleFromFile(const char *filePath)
 
     // Fecha o arquivo
     fclose(file);
-    InputQuintuple quintuple = {
-            alphabet,
-            stateQuantity,
-            finalStateQuantity,
-            finalStates,
-            transitionQuantity,
-            transitions,
-            inputQuantity,
-            input
-    };
+    // Atribui os valores a quintuple
+    quintuple.StateQuantity = stateQuantity;
+    quintuple.FinalStateQuantity = finalStateQuantity;
+    quintuple.FinalStates = finalStates;
+    quintuple.TransitionQuantity = transitionQuantity;
+    quintuple.InputQuantity = inputQuantity;
+    quintuple.Input = input;
     return quintuple;
 }
 
@@ -130,13 +101,57 @@ void FreeInputQuintuple(InputQuintuple *quintuple)
     free(quintuple->Input);
 }
 
+void PrintTransitions(InputQuintuple quintuple)
+{
+    int i,j,k;
+    int alphabetActualSize = 0;
+    char* ptr = quintuple.Alphabet;
+    while (*ptr != '\n')
+    {
+        alphabetActualSize++;
+        ptr++;
+    }
+
+    for (i = 0; i < quintuple.StateQuantity; i++)
+    {
+        printf("Linha q%d: ", i);
+        for (j = 0; j < alphabetActualSize; j++)
+        {
+            printf("Coluna %c[ ", j + 'a');
+            for (k = 0; k < quintuple.StateQuantity; k++)
+            {
+                printf("%d ", quintuple.Transitions[i][j][k]);
+            }
+            printf("] \t ");
+        }
+        printf("\n");
+    }
+}
+
+
+int ProcessWord(InputQuintuple quintuple, char* word)
+{
+    return 0;
+}
+
+void ProcessInput(InputQuintuple quintuple)
+{
+    
+}
+
 int main(int argc, char **argv)
 {
     const char *filePath = "entrada.txt";
     if (argc == 2) filePath = argv[1];
 
     InputQuintuple inputQuintuple = CreateInputQuintupleFromFile(filePath);
-    printf(filePath);
+
+
+    if (PRINT_TRANSITIONS)
+    {
+        PrintTransitions(inputQuintuple);
+    }
+
 
     FreeInputQuintuple(&inputQuintuple);
     return 0;

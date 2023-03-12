@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_SYMBOLS 10
+#define MAX_STATES 20
+#define MAX_INPUT_SIZE 100
+
 
 // Structs
 typedef struct
@@ -17,13 +21,12 @@ typedef struct
 
 typedef struct
 {
-    char* Alphabet;
+    char Alphabet[MAX_SYMBOLS];
     int StateQuantity;
     int FinalStateQuantity;
     int* FinalStates;
     int TransitionQuantity;
-    Transition* Transitions;
-    //int*** RawTransitions;
+    int Transitions[MAX_STATES][MAX_SYMBOLS][MAX_STATES];
     int InputQuantity;
     char** Input;
 } InputQuintuple ;
@@ -32,6 +35,8 @@ typedef struct
 InputQuintuple CreateInputQuintupleFromFile(const char* filePath);
 void FreeInputQuintuple(InputQuintuple* quintuple);
 FILE* OpenFileAndCheck(const char* filePath);
-
+void PrintTransitions(InputQuintuple quintuple);
+int ProcessWord(InputQuintuple quintuple, char* word);
+void ProcessInput(InputQuintuple quintuple);
 
 #endif
