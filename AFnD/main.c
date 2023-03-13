@@ -29,7 +29,7 @@ InputQuintuple CreateInputQuintupleFromFile(const char *filePath)
 
     // Primeira Linha: Alfabeto
 
-    fgets(&quintuple.Alphabet, MAX_SYMBOLS, file);
+    fgets(quintuple.Alphabet, MAX_SYMBOLS, file);
     // TODO: Colocar em ordem alfabetica
 
     // Segunda Linha: Quantidade de Estados
@@ -51,6 +51,7 @@ InputQuintuple CreateInputQuintupleFromFile(const char *filePath)
 
     // SextaLinha: Transicoes:
     memset(quintuple.Transitions, 0, sizeof(quintuple.Transitions));
+    
     for (int i = 0; i < transitionQuantity; i++)
     {
         int CurrentState;
@@ -126,11 +127,63 @@ void PrintTransitions(InputQuintuple quintuple)
         printf("\n");
     }
 }
+int ShouldUnion(int size, int* arr)
+{
+    int i;
+    int count = 0;
+    for (i = 0; i < size; i++)
+    {
+        if (arr[i] == 1) count++;
+    }
+    if (count > 1) return 1;
+    return 0;
+}
+void Intersection(int size, int* arr1, int* arr2, int* result)
+{
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        result[i] = arr1[i] && arr2[i];
+    }
+}
+void Union(int size, int* arr1, int* arr2, int* result)
+{
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        result[i] = arr1[i] || arr2[i];
+    }
+}
+
 
 
 int ProcessWord(InputQuintuple quintuple, char* word)
 {
-    return 1;
+    int q = 0;
+    int* v;
+    int R[MAX_STATES];
+    int i;
+    v = quintuple.Transitions[q][*word - 'a'];
+    word++;
+    for (; *word != '\0'; word++)
+    {
+        v = quintuple.Transitions[q][*word - 'a'];
+        for (i = 0; i < quintuple.TransitionQuantity; i++)
+        {
+            if (v[i])
+            {
+                Union(quintuple.TransitionQuantity, v, quintuple.Transitions[v[i]][*word - 'a'], R);
+                int test = 32;
+            }
+        }
+        int test = 100;
+    }
+    //v = R;
+    int answer[100];
+    Intersection(quintuple.TransitionQuantity, R, quintuple.FinalStates, answer);
+    for (i = 0; i < quintuple.TransitionQuantity; i++)
+        if (answer[i] == 1) return 1;
+    return 0;
 }
 
 void ProcessInput(InputQuintuple quintuple)
@@ -139,8 +192,10 @@ void ProcessInput(InputQuintuple quintuple)
     for (i = 0; i < 1; i++)
     {
 
-        //char* word = "aab";
-        char* word = quintuple.Input[0];
+        //char* word = "ababb";
+        char* word = "ababb";
+        //char* word = "aababab";
+        //char* word = quintuple.Input[0];
         int validation = ProcessWord(quintuple, word);
         printf("%d: %s ", i+1, word);
         if (validation)
