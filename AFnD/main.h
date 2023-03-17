@@ -6,10 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_SYMBOLS 10
+#define MAX_SYMBOLS 11
 #define MAX_STATES 20
 #define MAX_INPUT_SIZE 100
-
 
 // Structs
 typedef struct
@@ -29,6 +28,7 @@ typedef struct
     int Transitions[MAX_STATES][MAX_SYMBOLS][MAX_STATES];
     int InputQuantity;
     char** Input;
+    int InitialState;
 } InputQuintuple ;
 
 // Functions
