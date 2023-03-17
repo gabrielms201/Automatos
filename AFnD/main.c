@@ -187,11 +187,9 @@ void ProcessInput(InputQuintuple quintuple)
 	int i;
 
 	for (i = 0; i < quintuple.InputQuantity; i++)
-	//for (i = 0; i < 1; i++)
 	{
 
 		char* word = quintuple.Input[i];
-		//word = "ababb";
 		int validation = ProcessWord(quintuple, word);
 		printf("%d: %s ", i + 1, word);
 		if (validation)
