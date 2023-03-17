@@ -167,42 +167,15 @@ int ProcessWord(InputQuintuple quintuple, char* word)
 	word++;
 	while (*word != '\0')
 	{
-		int* a = NULL;
-		int* b = NULL;
-		int captureiA = 0;
+		int v[MAX_STATES] = { 0 };
 		for (i = 0; i < quintuple.StateQuantity; i++)
 		{
 			if (R[i] == 1)
 			{
-				if (!captureiA)
-				{
-					a = quintuple.Transitions[i][*word - 'a'];
-					captureiA = 1;
-				}
-				else
-				{
-					b = quintuple.Transitions[i][*word - 'a'];
-				}
+				Union(MAX_STATES, quintuple.Transitions[i][*word - 'a'], v, v);
 			}
 		}
-
-		if (b != NULL)
-		{
-			Union(quintuple.StateQuantity,
-				a, b, R);
-		}
-		else
-		{
-			if (a == NULL)
-			{
-				return 0;
-			}
-			for (i = 0; i < quintuple.StateQuantity; i++)
-			{
-				R[i] = a[i];
-			}
-		}
-
+		memcpy(R, v, MAX_STATES);
 		word++;
 	}
 
@@ -229,7 +202,7 @@ void ProcessInput(InputQuintuple quintuple)
 	{
 
 		char* word = quintuple.Input[i];
-		//char* word = "ababb";
+		//word = "ababb";
 		int validation = ProcessWord(quintuple, word);
 		printf("%d: %s ", i + 1, word);
 		if (validation)
