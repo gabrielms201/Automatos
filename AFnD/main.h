@@ -36,8 +36,8 @@ InputQuintuple CreateInputQuintupleFromFile(const char* filePath);
 void FreeInputQuintuple(InputQuintuple* quintuple);
 FILE* OpenFileAndCheck(const char* filePath);
 void PrintTransitions(InputQuintuple quintuple);
-int ProcessWord(InputQuintuple quintuple, char* word);
 void ProcessInput(InputQuintuple quintuple);
+int ProcessWord(InputQuintuple quintuple, char* word);
 void Union(int size, int* arr1, int* arr2, int* result);
 void Intersection(int size, int* arr1, int* arr2, int* result);
 #endif

@@ -130,17 +130,6 @@ void PrintTransitions(InputQuintuple quintuple)
 	}
 }
 
-int ShouldUnion(int size, int* arr)
-{
-	int i;
-	int count = 0;
-	for (i = 0; i < size; i++)
-	{
-		if (arr[i] == 1) count++;
-	}
-	if (count > 1) return 1;
-	return 0;
-}
 void Intersection(int size, int* arr1, int* arr2, int* result)
 {
 	int i;
