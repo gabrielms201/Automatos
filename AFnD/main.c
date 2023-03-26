@@ -68,7 +68,7 @@ InputQuintuple CreateInputQuintupleFromFile(const char* filePath)
 	// SetimaLinha: Numero de Entradas
 	fscanf(file, "%d", &inputQuantity);
 	fgetc(file);
-	input = (char*)malloc(sizeof(char*) * inputQuantity);
+	input = (char**)malloc(sizeof(char**) * inputQuantity);
 	for (i = 0; i < inputQuantity; i++)
 	{
 		input[i] = malloc(sizeof(char) * MAX_INPUT_SIZE);
