@@ -11,12 +11,6 @@
 #define MAX_INPUT_SIZE 100
 
 // Structs
-typedef struct
-{
-    int CurrentState;
-    char Symbol;
-    int NextState;
-} Transition;
 
 typedef struct
 {

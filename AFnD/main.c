@@ -53,7 +53,7 @@ InputQuintuple CreateInputQuintupleFromFile(const char* filePath)
 	// SextaLinha: Transicoes:
 	memset(quintuple.Transitions, 0, sizeof(quintuple.Transitions));
 
-	for (int i = 0; i < transitionQuantity; i++)
+	for (i = 0; i < transitionQuantity; i++)
 	{
 		int CurrentState;
 		char Symbol;
@@ -152,11 +152,15 @@ int ProcessWord(InputQuintuple quintuple, char* word)
 	int i;
 	int q = quintuple.InitialState;
 	int R[MAX_STATES] = { 0 };
+
+	// A partir do estado inicial da primeira letra que devemos iniciar a aplicar a funcao de transicao
 	memcpy(R, quintuple.Transitions[q][*word - 'a'], MAX_STATES);
 	word++;
+
 	while (*word != '\0')
 	{
 		int v[MAX_STATES] = { 0 };
+		// Agora aplicamos a cadeia de uniao no vetor v (auxiliar)
 		for (i = 0; i < quintuple.StateQuantity; i++)
 		{
 			if (R[i] == 1)
@@ -164,6 +168,7 @@ int ProcessWord(InputQuintuple quintuple, char* word)
 				Union(MAX_STATES, quintuple.Transitions[i][*word - 'a'], v, v);
 			}
 		}
+		// terminando todas as unioes, armazenamos o valor no vetor R
 		memcpy(R, v, MAX_STATES);
 		word++;
 	}
