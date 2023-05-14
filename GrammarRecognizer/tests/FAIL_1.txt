@@ -1,0 +1,4 @@
+int x; 
+
+
+              int soma;     \t              int somaDois;
