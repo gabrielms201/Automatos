@@ -97,18 +97,6 @@ void NextTerminal()
     }
 }
 
-void Letra()
-{
-    if (isalpha(*g_input))
-    {
-        g_input++;
-        NextTerminal();
-    }
-    else
-    {
-        Error();
-    }
-}
 void Variavel()
 {
     //while ()
@@ -155,7 +143,9 @@ void Declaracao()
 }
 void Declaracoes()
 {
-    Declaracao();
+    // While the 3 first digits are equal to "int", we have a declaration
+    while (strncmp(g_input, "int", 3) == 0)
+        Declaracao();
     //todo
 
 }
@@ -181,7 +171,8 @@ void StartRecognizer()
     }
     // Start Analyzing
     NextTerminal();
-    Declaracao();
+    Programa();
+    
     // Finishes
     if (g_input != NULL && *g_input == '\0')
     {
