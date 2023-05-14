@@ -48,10 +48,10 @@ FILE* OpenFileAndCheck(const char* fileName)
 // Grammar Functions
 
 /// <summary>
-/// Checks of we should skip a character
+/// Returns the number of characters to skip
 /// </summary>
 /// <returns>Number of characters we should skip</returns>
-int CheckCondition()
+int GetNumberOfCharactersToSkip()
 {
     int isLineBreak = *g_input == '\n';
     int isEscape = *g_input == '\r';
@@ -63,18 +63,38 @@ int CheckCondition()
     return isLineBreak || isEscape || isTab || isSpace || isComment;
 
 }
+
+/// <summary>
+/// Goes to the next terminal given certain conditions
+/// </summary>
 void NextTerminal()
 {
-    int condition = CheckCondition();
-    while (condition)
+    int numberOfCharactersToSkip = GetNumberOfCharactersToSkip();
+    while (numberOfCharactersToSkip)
     {
         #ifdef LOG_DEBUG
             printf("~> [DEBUG] JUMPING CHARACTER: [%c]\n", *g_input);
             printf("\t\t Current Value: {%s}\n", g_input);
         #endif
 
-        g_input += condition;
-        condition = CheckCondition();
+        g_input += numberOfCharactersToSkip;
+        numberOfCharactersToSkip = GetNumberOfCharactersToSkip();
+    }
+}
+
+void StartRecognizer()
+{
+    if (g_input == NULL)
+    {
+        fprintf(stderr, "ERRO AO ABRIR ARQUIVO!\n");
+        exit(1);
+    }
+
+
+    switch (*g_input)
+    {
+    default:
+        break;
     }
 }
 
@@ -84,7 +104,6 @@ int main(int argc, char** argv)
 {
     const char* fileName = argc == 2 ? argv[1] : "input.txt";
     FILE* fp = OpenFileAndCheck(fileName);
-
     
     g_charCount = GetFileSize(fp);
     g_input = PutFileContentIntoString(fp, g_charCount);
@@ -92,11 +111,16 @@ int main(int argc, char** argv)
     // storage a reference to the beggining of the input, otherwise, we can't free this memory block
     char* originalInputPointer = g_input;
 
-
+    // Playground for a while
     NextTerminal();
 
+    // EndPlayground
+
+    StartRecognizer();
+
     printf("Number of Bytes: %ld\n", g_charCount);
-    printf("%s\n", g_input);
+    printf("INPUT: \n```\n%s\n```\n", g_input);
     
     free(originalInputPointer);
+    fclose(fp);
 }
