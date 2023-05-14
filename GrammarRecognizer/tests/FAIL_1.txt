@@ -1,4 +1,2 @@
-int x; 
-
-
-              int soma;     \t              int somaDois;
+int x;
+              int soma;           \t    int somaDois;

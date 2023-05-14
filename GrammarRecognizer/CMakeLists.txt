@@ -3,4 +3,6 @@ project(GrammarRecognizer C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(GrammarRecognizer main.c)
+add_executable(GrammarRecognizer 
+	src/GrammarRecognizer.c 
+	src/GrammarRecognizer.h)

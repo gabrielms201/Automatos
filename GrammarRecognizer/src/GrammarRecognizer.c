@@ -1,7 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <ctype.h> 
-#include <string.h>
+#include "GrammarRecognizer.h"
 
 //#define LOG_DEBUG
 char* g_input = NULL;
@@ -9,9 +6,10 @@ long g_charCount = 0;
 long g_currentLine = 1;
 
 
-void Error()
+void Error(const char* message)
 {
     fprintf(stderr, "Falha na derivacao.\n Erro na linha %ld", g_currentLine);
+    fprintf(stderr, "Erro: %s\n", message);
     exit(1);
 }
 
@@ -97,6 +95,8 @@ void NextTerminal()
     }
 }
 
+
+// Derivacoes
 void Variavel()
 {
     //while ()
@@ -109,7 +109,6 @@ void Variavel()
         Variavel();
     }
 }
-// Não terminais
 void Declaracao()
 {
     switch (*g_input)
@@ -132,13 +131,13 @@ void Declaracao()
                     NextTerminal();
                     break;
                 }
-                else Error();
+                else Error("Esperava um ponto e virgula apos a variavel");
             }
-            else Error();
+            else Error("Esperava a palavra 'int'");
         }
-        else Error();
+        else Error("Esperava a palavra 'int'");
     default:
-        Error();
+        Error("Comando invalido");
     }
 }
 void Declaracoes()
@@ -146,22 +145,32 @@ void Declaracoes()
     // While the 3 first digits are equal to "int", we have a declaration
     while (strncmp(g_input, "int", 3) == 0)
         Declaracao();
-    //todo
-
+}
+void Atribuicao()
+{
+    if (*g_input == 'a')
+    {
+        g_input++;
+        NextTerminal();
+    }
 }
 void Comandos()
 {
-    //todo
-    return;
+    Atribuicao();
+    while (*g_input == ';')
+    {
+        g_input++;
+        NextTerminal();
+        Atribuicao();
+    }
 }
 void Programa()
 {
     Declaracoes();
     Comandos();
 }
+// Fim Derivacoes
 
-
-//
 void StartRecognizer()
 {
     if (g_input == NULL)
@@ -182,13 +191,6 @@ void StartRecognizer()
     {
         fprintf(stderr, "Falha na derivacao.\n Erro na linha %ld", g_currentLine);
     }
-
-    //return 0;
-    //switch (*g_input)
-    //{
-    //default:
-    //    break;
-    //}
 }
 
 
@@ -206,11 +208,7 @@ int main(int argc, char** argv)
     // storage a reference to the beggining of the input, otherwise, we can't free this memory block
     char* originalInputPointer = g_input;
 
-    // Playground for a while
-    NextTerminal();
-
-    // EndPlayground
-
+    // Start Recognizing
     StartRecognizer();
 
     

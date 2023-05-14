@@ -2,3 +2,5 @@
 build*
 */.exe
 reconhecedor
+*.o
+bin/GrammarRecognizer
