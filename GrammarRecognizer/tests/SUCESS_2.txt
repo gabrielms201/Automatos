@@ -1,0 +1,4 @@
+int x;
+int soma;
+x=2+3;
+soma=2+3*(9-22)
