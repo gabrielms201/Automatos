@@ -191,7 +191,7 @@ void Fator()
 void Termo()
 {
     Fator();
-    while (*g_input == '*' || *g_input == '\\')
+    while (*g_input == '*' || *g_input == '/')
     {
         g_input++;
         NextTerminal();
