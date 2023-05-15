@@ -8,8 +8,8 @@ long g_currentLine = 1;
 
 void Error(const char* message)
 {
-    fprintf(stderr, "Falha na derivacao.\n Erro na linha %ld", g_currentLine);
-    fprintf(stderr, "Erro: %s\n", message);
+    fprintf(stderr, "Falha na derivacao.\n Erro na linha %ld: ", g_currentLine);
+    fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
@@ -99,9 +99,6 @@ void NextTerminal()
 // Derivacoes
 void Variavel()
 {
-    //while ()
-    //Letra();
-
     while (isalpha(*g_input))
     {
         g_input++;
@@ -146,12 +143,23 @@ void Declaracoes()
     while (strncmp(g_input, "int", 3) == 0)
         Declaracao();
 }
+void Expressao()
+{
+    fprintf(stderr, "not implemented yet!\n");
+    exit(1);
+}
 void Atribuicao()
 {
-    if (*g_input == 'a')
+    Variavel();
+    if (*g_input == '=')
     {
         g_input++;
         NextTerminal();
+        Expressao();
+    }
+    else
+    {
+        Error("Esperava expressao apos declaracao");
     }
 }
 void Comandos()

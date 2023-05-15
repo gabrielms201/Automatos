@@ -20,6 +20,7 @@ int GetNumberOfCharactersToSkip();
 void NextTerminal();
 
 // Derivacoes
+void Expressao();
 void Variavel();
 void Declaracao();
 void Declaracoes();
