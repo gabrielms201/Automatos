@@ -23,9 +23,13 @@ void NextTerminal();
 void Expressao();
 void Variavel();
 void Declaracao();
+void Digito();
 void Declaracoes();
 void Atribuicao();
 void Comandos();
 void Programa();
+void Termo();
+void Fator();
+void Numero();
 void StartRecognizer();
 // ~main.h

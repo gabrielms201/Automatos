@@ -143,10 +143,75 @@ void Declaracoes()
     while (strncmp(g_input, "int", 3) == 0)
         Declaracao();
 }
+
+
+void Digito()
+{
+    if (isdigit(*g_input))
+    {
+        g_input++;
+        NextTerminal();
+    }
+    else
+    {
+        Error("Esperava digito");
+    }
+}
+
+void Numero()
+{
+    Digito();
+    if (isdigit(*g_input))
+    {
+        Numero();
+    }
+}
+void Fator()
+{
+    if (*g_input == '(')
+    {
+        g_input++;
+        NextTerminal();
+        Expressao();
+        if (*g_input == ')')
+        {
+            g_input++;
+            NextTerminal();
+        }
+        else
+        {
+            Error("Esperava um ')' apos a abertura de um '('");
+        }
+    }
+    else
+    {
+        Numero();
+    }
+}
+void Termo()
+{
+    Fator();
+    while (*g_input == '*' || *g_input == '\\')
+    {
+        g_input++;
+        NextTerminal();
+        Fator();
+    }
+}
 void Expressao()
 {
-    fprintf(stderr, "not implemented yet!\n");
-    exit(1);
+    if (*g_input == '+' || *g_input == '-')
+    {
+        g_input++;
+        NextTerminal();
+    }
+    Termo();
+    while (*g_input == '+' || *g_input == '-')
+    {
+        g_input++;
+        NextTerminal();
+        Termo();
+    }
 }
 void Atribuicao()
 {

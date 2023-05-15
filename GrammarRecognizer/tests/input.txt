@@ -1,3 +1,5 @@
-int x; int soma;
-int somaDois;
-somaDois = o
+int x;
+int soma;
+
+x=(2+((3)); // aqui eh um comentário, mas tem um erro na expressao
+soma = 3*8
