@@ -5,7 +5,7 @@ make
 PASTA_ARQUIVOS="./tests"
 
 # Define o caminho completo para o executável "reconhecedor.exe"
-EXECUTAVEL="bin/Reconhecedor"
+EXECUTAVEL="./bin/GrammarRecognizer"
 
 # Variável para armazenar o estado de erro (0 = sem erro, 1 = erro)
 ERRO=0
