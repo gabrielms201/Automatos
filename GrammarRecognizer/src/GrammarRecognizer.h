@@ -5,7 +5,6 @@
 #include <ctype.h> 
 #include <string.h>
 
-
 // Utils
 void Error();
 

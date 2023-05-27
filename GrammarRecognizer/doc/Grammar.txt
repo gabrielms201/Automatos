@@ -1,0 +1,14 @@
+<programa> ::= <declaracoes> <comandos>
+<declaracoes> ::= <declaracao> | <declaracao> <declaracoes>
+<declaracao> ::= 'int' <variavel>';'
+<comandos> ::= <atribuicao> {';' <atribuicao>}
+<atribuicao> ::= <variavel> '=' <expr>
+<expr> ::= ['+' | '-'] <termo> {('+' | '-' ) <termo>}
+<termo> ::= <fator> {('*'|'/') <fator>}
+<fator> ::= <numero> | '('<expr>')'
+<variavel> ::= <letra> <variavel> | <letra>
+<numero> ::= <digito> <numero> | <digito>
+<letra> ::= 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' |
+ 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' |
+ 'y' | 'z'
+<digito> ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
