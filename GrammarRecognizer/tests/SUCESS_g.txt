@@ -1,0 +1,17 @@
+//das 
+int a;
+int b;
+int c
+; //dsads
+int 
+d;
+int e;
+
+e = 2;b=(2+
+
+123)/2
+;c=
+30-3
+2/4
+0
+//dasdasdas

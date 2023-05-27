@@ -1,0 +1,6 @@
+int x;
+x = 3; ///d/asdjasihdnjasiokndas
+            ///dsakoidasjmidasjmdsa
+            //da/sdolpkaspldkm,sadasdsaokdlpaskm,doas
+y = 4
+//dasdasdas

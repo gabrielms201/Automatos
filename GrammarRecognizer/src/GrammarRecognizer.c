@@ -99,10 +99,17 @@ void NextTerminal()
 // Derivacoes
 void Variavel()
 {
-    while (isalpha(*g_input))
+    if (isalpha(*g_input))
     {
         g_input++;
         NextTerminal();
+    }
+    else
+    {
+        Error("Esperava variavel");
+    }
+    if (isalpha(*g_input))
+    {
         Variavel();
     }
 }
@@ -140,8 +147,16 @@ void Declaracao()
 void Declaracoes()
 {
     // While the 3 first digits are equal to "int", we have a declaration
-    while (strncmp(g_input, "int", 3) == 0)
+    if (strncmp(g_input, "int", 3) == 0)
+    {
         Declaracao();
+    }
+    else
+    {
+        Error("Esperava declaracao");
+    }
+    while (strncmp(g_input, "int", 3) == 0)
+        Declaracoes();
 }
 
 
